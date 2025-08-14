@@ -62,19 +62,26 @@ int list_free(IntList* lst) {
     return 0;
 }
 
-// for some reason i think this function deletes 2 elements
 int list_pop(IntList* lst, const size_t idx) {
     if (lst == NULL) return 1;
+    if (idx >= lst->len) return 2;
 
-    IntNode* cur = lst->start;
-    IntNode* prev = NULL;
-    for (size_t i = 0; i < idx; ++i) {
-        prev = cur;
-        cur = cur->next;
+    IntNode* to_delete;
+
+    if (idx == 0) {
+        to_delete = lst->start;
+        lst->start = to_delete->next;
+    } else {
+        IntNode* cur = lst->start;
+        for (size_t i = 0; i < idx - 1; ++i) {
+            cur = cur->next;
+        }
+        to_delete = cur->next;
+        cur->next = to_delete->next;
     }
 
-    prev->next = cur->next->next;
-    free(cur);
+    free(to_delete);
+    lst->len--;
     return 0;
 }
 
