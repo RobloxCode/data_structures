@@ -75,6 +75,27 @@ int main() {
         return 1;
     }
 
+    status = stack_push(s, 4);
+    if (status != 0) {
+        printf("Status: %d\n", status);
+        stack_free(s);
+        return 1;
+    }
+
+    status = stack_push(s, 5);
+    if (status != 0) {
+        printf("Status: %d\n", status);
+        stack_free(s);
+        return 1;
+    }
+
+    status = stack_print(s);
+    if (status != 0) {
+        printf("Status: %d\n", status);
+        stack_free(s);
+        return 1;
+    }
+
     stack_free(s);
     return 0;
 }
