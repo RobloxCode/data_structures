@@ -1,11 +1,87 @@
+#include <stddef.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef struct IntNode {
     int val;
     struct IntNode* next;
 } IntNode;
 
-IntNode* stack_make() {
-    printf("HELLO\n");
-    return NULL;
+typedef struct {
+    IntNode* top;
+    size_t len;
+} Stack;
+
+Stack* stack_make() {
+    Stack* s = malloc(sizeof(Stack));
+    if (s == NULL) {
+        return NULL;
+    }
+
+    s->top = NULL;
+    s->len = 0;
+
+    return s;
 }
+
+int stack_free(Stack* s) {
+    if (s == NULL) return 1;
+
+    IntNode* cur = s->top;
+    while (cur != NULL) {
+        IntNode* next = cur->next;
+        free(cur);
+        cur = next;
+    }
+
+    free(s);
+    return 0;
+}
+
+int stack_push(Stack* s, int val) {
+    if (s == NULL) return 1;
+
+    IntNode* new_top = malloc(sizeof(IntNode));
+    if (new_top == NULL) {
+        return 1;
+    }
+
+    new_top->val = val;
+    new_top->next = s->top;
+    s->top = new_top;
+    s->len++;
+
+    return 0;
+}
+
+int stack_pop(Stack* s, int* out) {
+    if (s == NULL || s->top == NULL) return 1;
+
+    IntNode* old_top = s->top;
+    if (out != NULL) *out = old_top->val;
+    s->top = old_top->next;
+    free(old_top);
+    s->len--;
+
+   return 0;
+}
+
+int stack_peek(Stack* s, int* out) {
+    if (s == NULL || out == NULL) return 1;
+    if (out != NULL) *out = s->top->val;
+    return 0;
+}
+
+int stack_print(Stack* s) {
+    if (s == NULL) return 1;
+
+    IntNode* cur = s->top;
+    printf("[ ");
+    while (cur != NULL) {
+        printf("%d ", cur->val);
+        cur = cur->next;
+    }
+    printf("]\n");
+    return 0;
+}
+
