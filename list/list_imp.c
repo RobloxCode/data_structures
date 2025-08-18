@@ -59,10 +59,11 @@ int list_free(IntList* lst) {
     }
 
     free(lst);
+    lst = NULL;
     return 0;
 }
 
-int list_pop(IntList* lst, const size_t idx) {
+int list_remove(IntList* lst, const size_t idx) {
     if (lst == NULL) return 1;
     if (idx >= lst->len) return 2;
 
@@ -98,14 +99,22 @@ int list_set_value(IntList* lst, const size_t idx, const int new_val) {
     return 0;
 }
 
-int list_print(IntList* lst) {
-    if (lst == NULL) {
-        return 1;
+int list_get_val(const IntList* lst, const size_t idx, int* out) {
+    if (lst == NULL || out == NULL) return 1;
+    if (idx >= lst->len) return 2;
+
+    const IntNode* cur = lst->start;
+    for (size_t i = 0; i < idx; ++i) {
+        cur = cur->next;
     }
 
-    if (lst->start == NULL) {
-        printf("[]\n");
-        return 0;
+    *out = cur->val;
+    return 0;
+}
+
+int list_print(const IntList* lst) {
+    if (lst == NULL) {
+        return 1;
     }
 
     IntNode* cur = lst->start;
@@ -117,5 +126,34 @@ int list_print(IntList* lst) {
     printf("]\n");
 
     return 0;
+}
+
+int list_search(const IntList* lst, const int target, size_t* out) {
+    if (lst == NULL || out == NULL) return 1;
+
+    int left = 0;
+    int right = (int)lst->len-1;
+    int middle_val = 0;
+    int status = 0;
+
+    while (left <= right) {
+        int middle_idx = (left + right) / 2;
+        status = list_get_val(lst, (size_t)middle_idx, &middle_val);
+        if (status != 0) {
+            return status;
+        }
+
+        if (target == middle_val) {
+            *out = (size_t)middle_idx;
+            return 0;
+        } else if (target > middle_val) {
+            left = middle_idx + 1;
+        } else {
+            right = middle_idx - 1;
+        }
+    }
+
+    *out = -1;
+    return 3;
 }
 

@@ -9,6 +9,7 @@
  * - 0: No errors.
  * - 1: Wrong pointer (NULL pointer passed where a valid pointer is required).
  * - 2: Index out of bounds (idx >= list length).
+ * - 3: Item not found
  */
 
 #ifndef INTLIST_H
@@ -72,7 +73,7 @@ int list_free(IntList* lst);
  * @param idx Index of the element to remove (0-based).
  * @return Status code (0 success, 1 NULL pointer, 2 index out of bounds).
  */
-int list_pop(IntList* lst, const size_t idx);
+int list_remove(IntList* lst, const size_t idx);
 
 /**
  * @brief Set the value of an element at a given index.
@@ -90,6 +91,25 @@ int list_set_value(IntList* lst, const size_t idx, const int new_val);
  * @param lst Pointer to the list.
  * @return 0 on success, 1 if lst is NULL.
  */
-int list_print(IntList* lst);
+int list_print(const IntList* lst);
+
+/**
+ * @brief stores the item at a given index in a given output variable
+ *
+ * @param lst Poitner to the list
+ * @param idx Index of the element to store
+ * @param out pointer to the variable where the element will be stored
+ */
+int list_get_val(const IntList* lst, const size_t idx, int* out);
+
+/**
+ * @brief searches the index of a given value
+ *
+ * @param lst Poitner to the list
+ * @param target value to search for in the list
+ * @param out pointer to the variable where the index if find will be stored
+ * @return Status code (0 success, 1 NULL pointer, 2 index out of bounds, 3 not found value).
+ */
+int list_search(const IntList* lst, const int target, size_t* out);
 
 #endif // INTLIST_H
