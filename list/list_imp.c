@@ -168,7 +168,6 @@ int list_reverse(IntList* lst) {
     }
 
     lst->start = prev;
-
     return 0;
 }
 
