@@ -112,4 +112,11 @@ int list_get_val(const IntList* lst, const size_t idx, int* out);
  */
 int list_search(const IntList* lst, const int target, size_t* out);
 
+/**
+ * @brief reverses the list by shifting the pointers of the list
+ *
+ * @param lst Poitner to the list
+ */
+int list_reverse(IntList* lst);
+
 #endif // INTLIST_H

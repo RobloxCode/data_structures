@@ -113,9 +113,7 @@ int list_get_val(const IntList* lst, const size_t idx, int* out) {
 }
 
 int list_print(const IntList* lst) {
-    if (lst == NULL) {
-        return 1;
-    }
+    if (lst == NULL) return 1;
 
     IntNode* cur = lst->start;
     printf("[ ");
@@ -155,5 +153,22 @@ int list_search(const IntList* lst, const int target, size_t* out) {
 
     *out = -1;
     return 3;
+}
+
+int list_reverse(IntList* lst) {
+    if (lst == NULL) return 1;
+
+    IntNode* prev = NULL;
+    IntNode* cur = lst->start;
+    while (cur != NULL) {
+        IntNode* next = cur->next;
+        cur->next = prev;
+        prev = cur;
+        cur = next;
+    }
+
+    lst->start = prev;
+
+    return 0;
 }
 

@@ -10,6 +10,7 @@ int main() {
         status = list_set_value(lst, i, i+1);
         if (status != 0) {
             printf("Status: %d", status);
+            list_free(lst);
             return 1;
         }
     }
@@ -17,6 +18,7 @@ int main() {
     status = list_print(lst);
     if (status != 0) {
         printf("Status: %d", status);
+        list_free(lst);
         return 1;
     }
 
@@ -25,6 +27,7 @@ int main() {
     status = list_get_val(lst, idx, &val);
     if (status != 0) {
         printf("Status: %d", status);
+        list_free(lst);
         return 1;
     }
     printf("var at index: %zu, is: %d\n", idx, val);
@@ -34,9 +37,38 @@ int main() {
     status = list_search(lst, to_search, &bs_idx);
     if (status != 0) {
         printf("Status: %d", status);
+        list_free(lst);
         return 1;
     }
     printf("Num to search: %d is at idx: %zu\n\n", to_search, bs_idx);
+
+    status = list_reverse(lst);
+    if (status != 0) {
+        printf("Status: %d", status);
+        list_free(lst);
+        return 1;
+    }
+
+    status = list_print(lst);
+    if (status != 0) {
+        printf("Status: %d", status);
+        list_free(lst);
+        return 1;
+    }
+
+    status = list_reverse(lst);
+    if (status != 0) {
+        printf("Status: %d", status);
+        list_free(lst);
+        return 1;
+    }
+
+    status = list_print(lst);
+    if (status != 0) {
+        printf("Status: %d", status);
+        list_free(lst);
+        return 1;
+    }
 
     list_free(lst);
     return 0;
