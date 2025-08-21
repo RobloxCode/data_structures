@@ -70,6 +70,29 @@ int main() {
         return 1;
     }
 
+    for (size_t i = 0; i < 10; ++i) {
+        status = list_remove(lst, lst->len-1-i);
+        if (status != 0) {
+            printf("Status: %d", status);
+            list_free(lst);
+            return 1;
+        }
+    }
+
+    status = list_append(lst, 100);
+    if (status != 0) {
+        printf("Status: %d", status);
+        list_free(lst);
+        return 1;
+    }
+
+    status = list_print(lst);
+    if (status != 0) {
+        printf("Status: %d", status);
+        list_free(lst);
+        return 1;
+    }
+
     list_free(lst);
     return 0;
 }

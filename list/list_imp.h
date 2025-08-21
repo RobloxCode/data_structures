@@ -119,4 +119,7 @@ int list_search(const IntList* lst, const int target, size_t* out);
  */
 int list_reverse(IntList* lst);
 
+
+int list_append(IntList* lst, int val);
+
 #endif // INTLIST_H

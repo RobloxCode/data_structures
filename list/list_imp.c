@@ -14,7 +14,9 @@ typedef struct {
 
 IntList* list_make(const size_t init_size) {
     IntList* lst = malloc(sizeof(IntList));
-    if (lst == NULL) return NULL;
+    if (lst == NULL) {
+        return NULL;
+    }
 
     lst->len = 0;
     lst->start = NULL;
@@ -49,7 +51,9 @@ IntList* list_make(const size_t init_size) {
 }
 
 int list_free(IntList* lst) {
-    if (lst == NULL) return 1;
+    if (lst == NULL) {
+        return 1;
+    }
 
     IntNode* cur = lst->start;
     while (cur != NULL) {
@@ -64,8 +68,12 @@ int list_free(IntList* lst) {
 }
 
 int list_remove(IntList* lst, const size_t idx) {
-    if (lst == NULL) return 1;
-    if (idx >= lst->len) return 2;
+    if (lst == NULL) {
+        return 1;
+    }
+    if (idx >= lst->len) {
+        return 2;
+    }
 
     IntNode* to_delete;
 
@@ -87,8 +95,12 @@ int list_remove(IntList* lst, const size_t idx) {
 }
 
 int list_set_value(IntList* lst, const size_t idx, const int new_val) {
-    if (lst == NULL || lst->start == NULL) return 1;
-    if (idx >= lst->len) return 2;
+    if (lst == NULL || lst->start == NULL) {
+        return 1;
+    }
+    if (idx >= lst->len) {
+        return 2;
+    }
 
     IntNode* cur = lst->start;
     for (size_t i = 0; i < idx; ++i) {
@@ -100,8 +112,12 @@ int list_set_value(IntList* lst, const size_t idx, const int new_val) {
 }
 
 int list_get_val(const IntList* lst, const size_t idx, int* out) {
-    if (lst == NULL || out == NULL) return 1;
-    if (idx >= lst->len) return 2;
+    if (lst == NULL || out == NULL) {
+        return 1;
+    }
+    if (idx >= lst->len) {
+        return 2;
+    }
 
     const IntNode* cur = lst->start;
     for (size_t i = 0; i < idx; ++i) {
@@ -113,7 +129,9 @@ int list_get_val(const IntList* lst, const size_t idx, int* out) {
 }
 
 int list_print(const IntList* lst) {
-    if (lst == NULL) return 1;
+    if (lst == NULL) {
+        return 1;
+    }
 
     IntNode* cur = lst->start;
     printf("[ ");
@@ -127,7 +145,9 @@ int list_print(const IntList* lst) {
 }
 
 int list_search(const IntList* lst, const int target, size_t* out) {
-    if (lst == NULL || out == NULL) return 1;
+    if (lst == NULL || out == NULL) {
+        return 1;
+    }
 
     int left = 0;
     int right = (int)lst->len-1;
@@ -156,7 +176,9 @@ int list_search(const IntList* lst, const int target, size_t* out) {
 }
 
 int list_reverse(IntList* lst) {
-    if (lst == NULL) return 1;
+    if (lst == NULL) {
+        return 1;
+    }
 
     IntNode* prev = NULL;
     IntNode* cur = lst->start;
@@ -168,6 +190,32 @@ int list_reverse(IntList* lst) {
     }
 
     lst->start = prev;
+    return 0;
+}
+
+int list_append(IntList* lst, int val) {
+    if (lst == NULL) {
+        return 1;
+    }
+
+    IntNode* new_node = malloc(sizeof(IntNode));
+    if (new_node == NULL) {
+        return 1;
+    }
+    new_node->val = val;
+    new_node->next = NULL;
+
+    if (lst->start == NULL) {
+        lst->start = new_node;
+        return 0;
+    }
+
+    IntNode* cur = lst->start;
+    while (cur->next != NULL) {
+        cur = cur->next;
+    }
+
+    cur->next = new_node;
     return 0;
 }
 
