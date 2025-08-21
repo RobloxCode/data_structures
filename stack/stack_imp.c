@@ -10,10 +10,10 @@ typedef struct IntNode {
 typedef struct {
     IntNode* top;
     size_t len;
-} Stack;
+} IntStack;
 
-Stack* stack_make() {
-    Stack* s = malloc(sizeof(Stack));
+IntStack* stack_make() {
+    IntStack* s = malloc(sizeof(IntStack));
     if (s == NULL) {
         return NULL;
     }
@@ -24,7 +24,7 @@ Stack* stack_make() {
     return s;
 }
 
-int stack_free(Stack* s) {
+int stack_free(IntStack* s) {
     if (s == NULL) return 1;
 
     IntNode* cur = s->top;
@@ -38,7 +38,7 @@ int stack_free(Stack* s) {
     return 0;
 }
 
-int stack_push(Stack* s, int val) {
+int stack_push(IntStack* s, int val) {
     if (s == NULL) return 1;
 
     IntNode* new_top = malloc(sizeof(IntNode));
@@ -54,7 +54,7 @@ int stack_push(Stack* s, int val) {
     return 0;
 }
 
-int stack_pop(Stack* s, int* out) {
+int stack_pop(IntStack* s, int* out) {
     if (s == NULL || s->top == NULL) return 1;
 
     IntNode* old_top = s->top;
@@ -66,13 +66,13 @@ int stack_pop(Stack* s, int* out) {
    return 0;
 }
 
-int stack_peek(Stack* s, int* out) {
+int stack_peek(IntStack* s, int* out) {
     if (s == NULL || out == NULL) return 1;
     if (out != NULL) *out = s->top->val;
     return 0;
 }
 
-int stack_print(Stack* s) {
+int stack_print(IntStack* s) {
     if (s == NULL) return 1;
 
     IntNode* cur = s->top;

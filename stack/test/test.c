@@ -3,7 +3,7 @@
 
 int main() {
     int status = 0;
-    Stack* s = stack_make();
+    IntStack* s = stack_make();
     if (s == NULL) {
         printf("Status code: %d\n", 1);
         return 1;

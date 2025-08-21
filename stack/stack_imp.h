@@ -1,36 +1,53 @@
 /**
- * @file intlist.h
- * @brief Simple singly linked list implementation for integers.
+ * @file stack_imp.h
+ * @brief Simple singly linked stack implementation for integers.
  *
- * This library provides a basic linked list for integers, with
- * operations to create, free, remove elements, set values, and print.
+ * Provides a basic stack with push, pop, peek, print, create, and free.
  *
  * ## Status Codes:
  * - 0: No errors.
- * - 1: Wrong pointer (NULL pointer passed where a valid pointer is required).
- * - 2: Index out of bounds (idx >= list length).
+ * - 1: Null pointer passed where a valid pointer is required.
+ * - 2: Operation not possible (e.g., pop/peek on empty stack).
  */
 
-#ifndef STACK_IMP_H
-#define STACK_IMP_H
-
+#ifndef STACK_H
+#define STACK_H
 #include <stddef.h>
 
+/**
+ * @struct IntNode
+ * @brief A single node in the stack.
+ */
 typedef struct IntNode {
-    int val;
-    struct IntNode* next;
+    int val;                 /**< Value stored at the node */
+    struct IntNode* next;    /**< Pointer to the next node, or NULL */
 } IntNode;
 
+/**
+ * @struct IntStack
+ * @brief IntStack container.
+ */
 typedef struct {
-    IntNode* top;
-    size_t len;
-} Stack;
+    IntNode* top;    /**< Pointer to the top node */
+    size_t len;      /**< Number of elements in the stack */
+} IntStack;
 
-Stack* stack_make();
-int stack_print(Stack* s);
-int stack_free(Stack* s);
-int stack_push(Stack* s, int val);
-int stack_pop(Stack* s, int* out);
-int stack_peek(Stack* s, int* out);
+/** Create a new empty stack. */
+IntStack* stack_make();
+
+/** Print stack contents as [ val1 val2 ... ]. */
+int stack_print(const IntStack* s);
+
+/** Free all nodes and the stack container. */
+int stack_free(IntStack* s);
+
+/** Push a value onto the stack. */
+int stack_push(IntStack* s, int val);
+
+/** Pop the top value into `out`. Returns 2 if the stack is empty. */
+int stack_pop(IntStack* s, int* out);
+
+/** Peek at the top value into `out` without removing it. Returns 2 if empty. */
+int stack_peek(const IntStack* s, int* out);
 
 #endif
