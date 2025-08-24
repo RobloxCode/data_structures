@@ -46,6 +46,45 @@ static int BinaryTree_search_node(IntNode* node, int val) {
     }
 }
 
+static IntNode* BinaryTree_remove_node(IntNode* root, int val, int* status) {
+    if (root == NULL) {
+        *status = 3;
+        return NULL;
+    }
+
+    if (val < root->val) {
+        root->left = BinaryTree_remove_node(root->left, val, status);
+    } else if (val > root->val) {
+        root->right = BinaryTree_remove_node(root->right, val, status);
+    } else {
+        *status = 0;
+
+        if (root->left == NULL && root->right == NULL) {
+            free(root);
+            return NULL;
+        }
+        else if (root->left == NULL) {
+            IntNode* temp = root->right;
+            free(root);
+            return temp;
+        } else if (root->right == NULL) {
+            IntNode* temp = root->left;
+            free(root);
+            return temp;
+        }
+        else {
+            IntNode* succ = root->right;
+            while (succ->left != NULL) {
+                succ = succ->left;
+            }
+            root->val = succ->val;
+            root->right = BinaryTree_remove_node(root->right, succ->val, status);
+        }
+    }
+
+    return root;
+}
+
 int BinaryTree_free(BinaryIntTree* bst) {
     if (bst == NULL) {
         return 1;
@@ -102,14 +141,15 @@ int BinaryTree_add(BinaryIntTree* bst, const int val) {
     }
 }
 
-// int BinaryTree_remove(BinaryIntTree* bst, const int val) {
-//     if (bst == NULL) {
-//         return 1;
-//     }
-//
-//
-//
-// }
+int BinaryTree_remove(BinaryIntTree* bst, const int val) {
+    if (bst == NULL) {
+        return 1;
+    }
+
+    int status = 0;
+    bst->root = BinaryTree_remove_node(bst->root, val, &status);
+    return status;
+}
 
 int BinaryTree_min(const BinaryIntTree* bst, int* out) {
     if (bst == NULL || out == NULL) {

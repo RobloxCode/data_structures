@@ -134,4 +134,6 @@ int BinaryTree_min(const BinaryIntTree* bst, int* out);
  */
 int BinaryTree_max(const BinaryIntTree* bst, int* out);
 
+int BinaryTree_remove(BinaryIntTree* bst, const int val);
+
 #endif
