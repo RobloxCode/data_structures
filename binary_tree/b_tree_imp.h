@@ -134,6 +134,16 @@ int BinaryTree_min(const BinaryIntTree* bst, int* out);
  */
 int BinaryTree_max(const BinaryIntTree* bst, int* out);
 
+/**
+ * @brief removes the node of a given value
+ *
+ * @param bst Pointer to the binary tree.
+ * @param val the value of the node to remove
+ * @return Status code:
+ *         - 0: Success.
+ *         - 1: Invalid tree pointer (NULL).
+ *         - 3: Item not found
+ */
 int BinaryTree_remove(BinaryIntTree* bst, const int val);
 
 #endif
