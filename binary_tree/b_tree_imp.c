@@ -102,6 +102,43 @@ int BinaryTree_add(BinaryIntTree* bst, const int val) {
     }
 }
 
+// int BinaryTree_remove(BinaryIntTree* bst, const int val) {
+//     if (bst == NULL) {
+//         return 1;
+//     }
+//
+//
+//
+// }
+
+int BinaryTree_min(const BinaryIntTree* bst, int* out) {
+    if (bst == NULL || out == NULL) {
+        return 1;
+    }
+
+    IntNode* cur = bst->root;
+    while (cur->left != NULL) {
+        cur = cur->left;
+    }
+
+    *out = cur->val;
+    return 0;
+}
+
+int BinaryTree_max(const BinaryIntTree* bst, int* out) {
+    if (bst == NULL || out == NULL) {
+        return 1;
+    }
+
+    IntNode* cur = bst->root;
+    while (cur->right != NULL) {
+        cur = cur->right;
+    }
+
+    *out = cur->val;
+    return 0;
+}
+
 void BinaryTree_print_preorder(const IntNode* cur_node) {
     if (cur_node == NULL) {
         printf("* ");

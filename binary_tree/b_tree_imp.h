@@ -89,13 +89,6 @@ void BinaryTree_print_postorder(const IntNode* cur_node);
 void BinaryTree_print_inorder(const IntNode* cur_node);
 
 /**
- * @brief Frees all nodes in a subtree.
- *
- * @param node Pointer to the root of the subtree to free.
- */
-static void BinaryTree_free_node(IntNode* node);
-
-/**
  * @brief Frees the entire binary tree.
  *
  * @param bst Pointer to the binary tree.
@@ -105,7 +98,40 @@ static void BinaryTree_free_node(IntNode* node);
  */
 int BinaryTree_free(BinaryIntTree* bst);
 
-static int BinaryTree_search_node(IntNode* node, int val);
+/**
+ * @brief searches for a value within the tree
+ *
+ * @param bst Pointer to the binary tree.
+ * @param val The number to search for
+ * @return Status code:
+ *         - 0: Success.
+ *         - 1: Invalid tree pointer (NULL).
+ *         - 3: Item not found
+ */
 int BinaryTree_search(const BinaryIntTree* bst, int val);
+
+/**
+ * @brief saves the minimun value
+ *
+ * @param bst Pointer to the binary tree.
+ * @param out Pointer to the variable that will store the minimun value
+ * @return Status code:
+ *         - 0: Success.
+ *         - 1: Invalid tree pointer (NULL).
+ *         - 3: Item not found
+ */
+int BinaryTree_min(const BinaryIntTree* bst, int* out);
+
+/**
+ * @brief saves the maximun value
+ *
+ * @param bst Pointer to the binary tree.
+ * @param out Pointer to the variable that will store the maximun value
+ * @return Status code:
+ *         - 0: Success.
+ *         - 1: Invalid tree pointer (NULL).
+ *         - 3: Item not found
+ */
+int BinaryTree_max(const BinaryIntTree* bst, int* out);
 
 #endif
