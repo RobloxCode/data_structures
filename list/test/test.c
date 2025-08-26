@@ -93,6 +93,9 @@ int main() {
         return 1;
     }
 
+    printf("SIZE: %zu\n", list_len(lst));
+    printf("SIZE: %zu\n", lst->len);
+
     list_free(lst);
     return 0;
 }

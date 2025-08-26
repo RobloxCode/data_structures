@@ -219,3 +219,10 @@ int list_append(IntList* lst, int val) {
     return 0;
 }
 
+size_t list_len(IntList* lst) {
+    if (lst == NULL || lst->start == NULL) {
+        return 0;
+    }
+    return lst->len;
+}
+

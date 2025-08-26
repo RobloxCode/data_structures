@@ -119,7 +119,19 @@ int list_search(const IntList* lst, const int target, size_t* out);
  */
 int list_reverse(IntList* lst);
 
-
+/**
+ * @brief adds a node at the end of the list
+ *
+ * @param lst Poitner to the list
+ * @param val Value to add at the end of the list
+ */
 int list_append(IntList* lst, int val);
+
+/**
+ * @brief returns the size of the list
+ *
+ * @param lst Poitner to the list
+ */
+size_t list_len(IntList* lst);
 
 #endif // INTLIST_H
