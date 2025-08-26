@@ -10,6 +10,7 @@ typedef struct IntNode {
 
 typedef struct BinaryIntTree {
     IntNode* root;
+    size_t _size;
 } BinaryIntTree;
 
 BinaryIntTree* BinaryTree_make() {
@@ -19,6 +20,7 @@ BinaryIntTree* BinaryTree_make() {
     }
 
     bst->root = NULL;
+    bst->_size = 0;
     return bst;
 }
 
@@ -117,6 +119,7 @@ int BinaryTree_add(BinaryIntTree* bst, const int val) {
 
     if (bst->root == NULL) {
         bst->root = new;
+        bst->_size++;
         return 0;
     }
 
@@ -128,12 +131,14 @@ int BinaryTree_add(BinaryIntTree* bst, const int val) {
         } else if (val < cur->val) {
             if (cur->left == NULL) {
                 cur->left = new;
+                bst->_size++;
                 return 0;
             }
             cur = cur->left;
         } else {
             if (cur->right == NULL) {
                 cur->right = new;
+                bst->_size++;
                 return 0;
             }
             cur = cur->right;
@@ -148,6 +153,9 @@ int BinaryTree_remove(BinaryIntTree* bst, const int val) {
 
     int status = 0;
     bst->root = BinaryTree_remove_node(bst->root, val, &status);
+    if (status == 0) {
+        bst->_size--;
+    }
     return status;
 }
 
@@ -176,6 +184,20 @@ int BinaryTree_max(const BinaryIntTree* bst, int* out) {
     }
 
     *out = cur->val;
+    return 0;
+}
+
+int BinaryTree_size(const BinaryIntTree* bst, size_t* out) {
+    if (bst == NULL || out == NULL) {
+        return 1;
+    }
+
+    if (bst->root == NULL) {
+        *out = 0;
+        return 4;
+    }
+
+    *out = bst->_size;
     return 0;
 }
 

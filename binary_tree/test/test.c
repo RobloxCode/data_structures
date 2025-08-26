@@ -125,6 +125,15 @@ int main() {
     BinaryTree_print_preorder(bst->root);
     printf("\n6 removed\n");
 
+    size_t size = 0;
+    status = BinaryTree_size(bst, &size);
+    if (status != 0) {
+        printf("Status %d\n", status);
+        BinaryTree_free(bst);
+        return 1;
+    }
+    printf("Size of the tree: %zu\n", size);
+
     status = BinaryTree_free(bst);
     if (status != 0) {
         printf("Status %d\n", status);

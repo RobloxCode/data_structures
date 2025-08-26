@@ -10,10 +10,12 @@
  * - 1: Wrong pointer (NULL pointer passed where a valid pointer is required).
  * - 2: Item already on the tree.
  * - 3: Item not found.
+ * - 4: Empty tree
  */
 
 #ifndef B_TREE_IMP_H
 #define B_TREE_IMP_H
+#include <stddef.h>
 
 /**
  * @struct IntNode
@@ -36,6 +38,7 @@ typedef struct IntNode {
  */
 typedef struct BinaryIntTree {
     IntNode* root; /**< Pointer to the root node of the tree. */
+    size_t size;   /**< Number of nodes in the tree */
 } BinaryIntTree;
 
 /**
@@ -145,5 +148,16 @@ int BinaryTree_max(const BinaryIntTree* bst, int* out);
  *         - 3: Item not found
  */
 int BinaryTree_remove(BinaryIntTree* bst, const int val);
+
+/**
+ * @brief Stores the size of the tree into an output variable
+ *
+ * @param bst Pointer to the binary tree.
+ * @param out Pointer to the variable to store the size of the tree
+ * @return Status code:
+ *         - 0: Success.
+ *         - 1: Invalid tree pointer (NULL).
+ */
+int BinaryTree_size(const BinaryIntTree* bst, size_t* out);
 
 #endif
