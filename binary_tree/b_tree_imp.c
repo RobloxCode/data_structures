@@ -201,6 +201,20 @@ int BinaryTree_size(const BinaryIntTree* bst, size_t* out) {
     return 0;
 }
 
+int BinaryTree_is_empty(const BinaryIntTree* bst, bool* out) {
+    if (bst == NULL) {
+        return 1;
+    }
+
+    if (bst->root == NULL) {
+        *out = true;
+        return 0;
+    }
+
+    *out = false;
+    return 0;
+}
+
 void BinaryTree_print_preorder(const IntNode* cur_node) {
     if (cur_node == NULL) {
         printf("* ");

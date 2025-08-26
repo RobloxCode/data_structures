@@ -160,4 +160,15 @@ int BinaryTree_remove(BinaryIntTree* bst, const int val);
  */
 int BinaryTree_size(const BinaryIntTree* bst, size_t* out);
 
+/**
+ * @brief Stores in a bool variable true if the tree is empty, false otherwise
+ *
+ * @param bst Pointer to the binary tree.
+ * @param out Pointer to the variable to store the boolean value
+ * @return Status code:
+ *         - 0: Success.
+ *         - 1: Invalid tree pointer (NULL).
+ */
+int BinaryTree_is_empty(const BinaryIntTree* bst, bool* out);
+
 #endif

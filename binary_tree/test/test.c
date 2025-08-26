@@ -9,6 +9,16 @@ int main() {
         return 1;
     }
 
+    bool is_empty;
+    status = BinaryTree_is_empty(bst, &is_empty);
+    if (status != 0) {
+        printf("Status %d\n", status);
+        BinaryTree_free(bst);
+        return 1;
+    }
+    printf("%s\n", is_empty ? "tree is empty" : "tree is not empty");
+
+
     status = BinaryTree_add(bst, 7);
     if (status != 0) {
         printf("Status %d\n", status);
@@ -133,6 +143,14 @@ int main() {
         return 1;
     }
     printf("Size of the tree: %zu\n", size);
+
+    status = BinaryTree_is_empty(bst, &is_empty);
+    if (status != 0) {
+        printf("Status %d\n", status);
+        BinaryTree_free(bst);
+        return 1;
+    }
+    printf("%s\n", is_empty ? "tree is empty" : "tree is not empty");
 
     status = BinaryTree_free(bst);
     if (status != 0) {
