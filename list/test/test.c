@@ -93,6 +93,28 @@ int main() {
         return 1;
     }
 
+    status = list_swap_values(lst, 0, 1);
+    if (status != 0) {
+        printf("Status: %d", status);
+        list_free(lst);
+        return 1;
+    }
+
+    status = list_swap_values(lst, 0, lst->len-1);
+    if (status != 0) {
+        printf("Status: %d", status);
+        list_free(lst);
+        return 1;
+    }
+
+
+    status = list_print(lst);
+    if (status != 0) {
+        printf("Status: %d", status);
+        list_free(lst);
+        return 1;
+    }
+
     printf("SIZE: %zu\n", list_len(lst));
     printf("SIZE: %zu\n", lst->len);
 

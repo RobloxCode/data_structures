@@ -226,3 +226,45 @@ size_t list_len(IntList* lst) {
     return lst->len;
 }
 
+// i have off by one errors when it comes to accessing values, 
+// for example when i access lst->len-1, wont gimme the last value
+int list_swap_values(IntList* lst, size_t idx1, size_t idx2) {
+    if (lst == NULL) {
+        return 1;
+    }
+
+    if (idx1 >= lst->len || idx2 >= lst->len) {
+        return 2;
+    }
+
+    int val1;
+    int val2;
+    int status;
+
+    if ((status = list_get_val(lst, idx1, &val1)) != 0) {
+        return status;
+    }
+
+    if ((status = list_get_val(lst, idx2, &val2)) != 0) {
+        return status;
+    }
+
+    if ((status = list_set_value(lst, idx1, val2)) != 0) {
+        return status;
+    }
+
+    if ((status = list_set_value(lst, idx2, val1)) != 0) {
+        return status;
+    }
+
+    return 0;
+}
+
+// int list_sort(IntList* lst) {
+//     if (lst == NULL) {
+//         return 1;
+//     }
+//
+//
+// }
+

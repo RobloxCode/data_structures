@@ -134,4 +134,6 @@ int list_append(IntList* lst, int val);
  */
 size_t list_len(IntList* lst);
 
+int list_swap_values(IntList* lst, size_t idx1, size_t idx2);
+
 #endif // INTLIST_H
