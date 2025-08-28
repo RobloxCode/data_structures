@@ -63,7 +63,6 @@ int list_free(IntList* lst) {
     }
 
     free(lst);
-    lst = NULL;
     return 0;
 }
 
@@ -95,7 +94,7 @@ int list_remove(IntList* lst, const size_t idx) {
 }
 
 int list_set_value(IntList* lst, const size_t idx, const int new_val) {
-    if (lst == NULL || lst->start == NULL) {
+    if (lst == NULL) {
         return 1;
     }
     if (idx >= lst->len) {
@@ -149,29 +148,19 @@ int list_search(const IntList* lst, const int target, size_t* out) {
         return 1;
     }
 
-    int left = 0;
-    int right = (int)lst->len-1;
-    int middle_val = 0;
     int status = 0;
-
-    while (left <= right) {
-        int middle_idx = (left + right) / 2;
-        status = list_get_val(lst, (size_t)middle_idx, &middle_val);
-        if (status != 0) {
+    int cur_val = 0;
+    for (size_t i = 0; i < lst->len - 1; ++i) {
+        if ((status = list_get_val(lst, i, &cur_val)) != 0) {
             return status;
         }
 
-        if (target == middle_val) {
-            *out = (size_t)middle_idx;
+        if (target == cur_val) {
+            *out = i;
             return 0;
-        } else if (target > middle_val) {
-            left = middle_idx + 1;
-        } else {
-            right = middle_idx - 1;
         }
     }
 
-    *out = -1;
     return 3;
 }
 
@@ -198,36 +187,34 @@ int list_append(IntList* lst, int val) {
         return 1;
     }
 
-    IntNode* new_node = malloc(sizeof(IntNode));
-    if (new_node == NULL) {
+    IntNode* new = malloc(sizeof(IntNode));
+    if (new == NULL) {
         return 1;
     }
-    new_node->val = val;
-    new_node->next = NULL;
+    new->val = val;
+    new->next = NULL;
 
     if (lst->start == NULL) {
-        lst->start = new_node;
-        return 0;
+        lst->start = new;
+    } else {
+        IntNode* cur = lst->start;
+        while (cur->next != NULL) {
+            cur = cur->next;
+        }
+        cur->next = new;
     }
 
-    IntNode* cur = lst->start;
-    while (cur->next != NULL) {
-        cur = cur->next;
-    }
-
-    cur->next = new_node;
+    lst->len++;
     return 0;
 }
 
-size_t list_len(IntList* lst) {
+size_t list_len(const IntList* lst) {
     if (lst == NULL || lst->start == NULL) {
         return 0;
     }
     return lst->len;
 }
 
-// i have off by one errors when it comes to accessing values, 
-// for example when i access lst->len-1, wont gimme the last value
 int list_swap_values(IntList* lst, size_t idx1, size_t idx2) {
     if (lst == NULL) {
         return 1;
@@ -260,11 +247,4 @@ int list_swap_values(IntList* lst, size_t idx1, size_t idx2) {
     return 0;
 }
 
-// int list_sort(IntList* lst) {
-//     if (lst == NULL) {
-//         return 1;
-//     }
-//
-//
-// }
 

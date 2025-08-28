@@ -132,8 +132,10 @@ int list_append(IntList* lst, int val);
  *
  * @param lst Poitner to the list
  */
-size_t list_len(IntList* lst);
+size_t list_len(const IntList* lst);
 
 int list_swap_values(IntList* lst, size_t idx1, size_t idx2);
+
+IntList* list_sort(IntList* lst);
 
 #endif // INTLIST_H
