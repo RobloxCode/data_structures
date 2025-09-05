@@ -79,13 +79,6 @@ int main() {
         }
     }
 
-    status = list_append(lst, 100);
-    if (status != 0) {
-        printf("Status: %d", status);
-        list_free(lst);
-        return 1;
-    }
-
     status = list_print(lst);
     if (status != 0) {
         printf("Status: %d", status);
@@ -161,6 +154,13 @@ int main() {
     //     list_free(lst);
     //     return 1;
     // }
+
+    status = list_sort(lst);
+    if (status != 0) {
+        printf("Status: %d", status);
+        list_free(lst);
+        return 1;
+    }
 
     list_free(lst);
     return 0;

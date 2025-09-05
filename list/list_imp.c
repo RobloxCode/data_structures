@@ -247,4 +247,45 @@ int list_swap_values(IntList* lst, size_t idx1, size_t idx2) {
     return 0;
 }
 
+int list_sort(IntList* lst) {
+    if (lst == NULL || lst->start ==  NULL) {
+        return 1;
+    }
+
+    int status = 0;
+    size_t half_size = lst->len / 2;
+    IntList* left_lst = list_make(half_size);
+    IntList* right_lst = list_make(half_size);
+
+    if (left_lst == NULL || right_lst == NULL) {
+        return 1;
+    }
+
+    int left_cur_val = 0;
+    for (size_t i = 0; i < half_size; ++i) {
+        if ((status = list_get_val(lst, i, &left_cur_val)) != 0) {
+            return status;
+        }
+
+        if ((status = list_set_value(left_lst, i, left_cur_val)) != 0) {
+            return status;
+        }
+    }
+
+    int right_cur_val = 0;
+    for (size_t i = half_size; i < lst->len - 1; ++i) {
+        if ((status = list_get_val(lst, i, &right_cur_val)) != 0) {
+            return status;
+        }
+
+        if ((status = list_set_value(right_lst, i - half_size, right_cur_val) != 0)) {
+            return status;
+        }
+    }
+
+    list_print(left_lst);
+    list_print(right_lst);
+
+    return 0;
+}
 
