@@ -2,6 +2,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+typedef enum {
+    STACK_OK,
+    STACK_NULL_PTR,
+} stack_status_t;
+
 typedef struct IntNode {
     int val;
     struct IntNode* next;
@@ -12,38 +17,47 @@ typedef struct {
     size_t len;
 } IntStack;
 
-IntStack* stack_make() {
-    IntStack* s = malloc(sizeof(IntStack));
+stack_status_t stack_init(IntStack** s) {
     if (s == NULL) {
-        return NULL;
+        return STACK_NULL_PTR;
     }
 
-    s->top = NULL;
-    s->len = 0;
+    IntStack* new = malloc(sizeof(IntStack));
+    if (new == NULL) {
+        return STACK_NULL_PTR;
+    }
 
-    return s;
+    new->len = 0;
+    new->top = NULL;
+    *s = new;
+    return STACK_OK;
 }
 
-int stack_free(IntStack* s) {
-    if (s == NULL) return 1;
+stack_status_t stack_free(IntStack** s) {
+    if (s == NULL || *s == NULL) {
+        return STACK_NULL_PTR;
+    }
 
-    IntNode* cur = s->top;
+    IntNode* cur = (*s)->top;
     while (cur != NULL) {
         IntNode* next = cur->next;
         free(cur);
         cur = next;
     }
 
-    free(s);
-    return 0;
+    free(*s);
+    *s = NULL;
+    return STACK_OK;
 }
 
-int stack_push(IntStack* s, int val) {
-    if (s == NULL) return 1;
+stack_status_t stack_push(IntStack* s, int val) {
+    if (s == NULL) {
+        return STACK_NULL_PTR;
+    }
 
     IntNode* new_top = malloc(sizeof(IntNode));
     if (new_top == NULL) {
-        return 1;
+        return STACK_NULL_PTR;
     }
 
     new_top->val = val;
@@ -51,11 +65,13 @@ int stack_push(IntStack* s, int val) {
     s->top = new_top;
     s->len++;
 
-    return 0;
+    return STACK_OK;
 }
 
-int stack_pop(IntStack* s, int* out) {
-    if (s == NULL || s->top == NULL) return 1;
+stack_status_t stack_pop(IntStack* s, int* out) {
+    if (s == NULL || s->top == NULL) {
+        return STACK_NULL_PTR;
+    }
 
     IntNode* old_top = s->top;
     if (out != NULL) *out = old_top->val;
@@ -63,17 +79,25 @@ int stack_pop(IntStack* s, int* out) {
     free(old_top);
     s->len--;
 
-   return 0;
+    return STACK_OK;
 }
 
-int stack_peek(IntStack* s, int* out) {
-    if (s == NULL || out == NULL) return 1;
-    if (out != NULL) *out = s->top->val;
-    return 0;
+stack_status_t stack_peek(IntStack* s, int* out) {
+    if (s == NULL || out == NULL) {
+        return STACK_NULL_PTR;
+    }
+
+    if (out != NULL) {
+        *out = s->top->val;
+    }
+
+    return STACK_OK;
 }
 
-int stack_print(IntStack* s) {
-    if (s == NULL) return 1;
+stack_status_t stack_print(IntStack* s) {
+    if (s == NULL) {
+        return STACK_NULL_PTR;
+    }
 
     IntNode* cur = s->top;
     printf("[ ");
@@ -82,6 +106,6 @@ int stack_print(IntStack* s) {
         cur = cur->next;
     }
     printf("]\n");
-    return 0;
+    return STACK_OK;
 }
 

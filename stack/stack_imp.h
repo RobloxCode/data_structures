@@ -4,15 +4,21 @@
  *
  * Provides a basic stack with push, pop, peek, print, create, and free.
  *
- * ## Status Codes:
- * - 0: No errors.
- * - 1: Null pointer passed where a valid pointer is required.
- * - 2: Operation not possible (e.g., pop/peek on empty stack).
  */
 
 #ifndef STACK_H
 #define STACK_H
 #include <stddef.h>
+
+/*
+ * @enum stack_status_t
+ * @brief An enum for a the possible return status 
+ * of the stack implementation
+*/
+typedef enum {
+    STACK_OK,
+    STACK_NULL_PTR,
+} stack_status_t;
 
 /**
  * @struct IntNode
@@ -32,22 +38,22 @@ typedef struct {
     size_t len;      /**< Number of elements in the stack */
 } IntStack;
 
-/** Create a new empty stack. */
-IntStack* stack_make();
+/* Initializes a stack*/
+stack_status_t stack_init(IntStack** s);
 
 /** Print stack contents as [ val1 val2 ... ]. */
-int stack_print(const IntStack* s);
+stack_status_t stack_print(IntStack* s);
 
 /** Free all nodes and the stack container. */
-int stack_free(IntStack* s);
+stack_status_t stack_free(IntStack** s);
 
 /** Push a value onto the stack. */
-int stack_push(IntStack* s, int val);
+stack_status_t stack_push(IntStack* s, int val);
 
 /** Pop the top value into `out`. Returns 2 if the stack is empty. */
-int stack_pop(IntStack* s, int* out);
+stack_status_t stack_pop(IntStack* s, int* out);
 
 /** Peek at the top value into `out` without removing it. Returns 2 if empty. */
-int stack_peek(const IntStack* s, int* out);
+stack_status_t stack_peek(IntStack* s, int* out);
 
 #endif
