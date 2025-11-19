@@ -2,6 +2,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+typedef enum {
+    LIST_OK                = 0,
+    LIST_WRONG_PTR         = 1,
+    LIST_IDX_OUT_OF_BOUNDS = 2,
+    LIST_ITEM_NOT_FOUND    = 3
+} list_status_t;
+
 typedef struct IntNode {
     int val;
     struct IntNode* next;
@@ -50,9 +57,9 @@ IntList* list_make(const size_t init_size) {
     return lst;
 }
 
-int list_free(IntList* lst) {
+list_status_t list_free(IntList* lst) {
     if (lst == NULL) {
-        return 1;
+        return LIST_WRONG_PTR;
     }
 
     IntNode* cur = lst->start;
@@ -63,15 +70,16 @@ int list_free(IntList* lst) {
     }
 
     free(lst);
-    return 0;
+    return LIST_OK;
 }
 
-int list_remove(IntList* lst, const size_t idx) {
+list_status_t list_remove(IntList* lst, const size_t idx) {
     if (lst == NULL) {
-        return 1;
+        return LIST_WRONG_PTR;
     }
+
     if (idx >= lst->len) {
-        return 2;
+        return LIST_IDX_OUT_OF_BOUNDS;
     }
 
     IntNode* to_delete;
@@ -90,15 +98,16 @@ int list_remove(IntList* lst, const size_t idx) {
 
     free(to_delete);
     lst->len--;
-    return 0;
+    return LIST_OK;
 }
 
-int list_set_value(IntList* lst, const size_t idx, const int new_val) {
+list_status_t list_set_value(IntList* lst, const size_t idx, const int new_val) {
     if (lst == NULL) {
-        return 1;
+        return LIST_WRONG_PTR;
     }
+
     if (idx >= lst->len) {
-        return 2;
+        return LIST_IDX_OUT_OF_BOUNDS;
     }
 
     IntNode* cur = lst->start;
@@ -107,15 +116,16 @@ int list_set_value(IntList* lst, const size_t idx, const int new_val) {
     }
 
     cur->val = new_val;
-    return 0;
+    return LIST_OK;
 }
 
-int list_get_val(const IntList* lst, const size_t idx, int* out) {
+list_status_t list_get_val(const IntList* lst, const size_t idx, int* out) {
     if (lst == NULL || out == NULL) {
-        return 1;
+        return LIST_WRONG_PTR;
     }
+
     if (idx >= lst->len) {
-        return 2;
+        return LIST_IDX_OUT_OF_BOUNDS;
     }
 
     const IntNode* cur = lst->start;
@@ -124,12 +134,12 @@ int list_get_val(const IntList* lst, const size_t idx, int* out) {
     }
 
     *out = cur->val;
-    return 0;
+    return LIST_OK;
 }
 
-int list_print(const IntList* lst) {
+list_status_t list_print(const IntList* lst) {
     if (lst == NULL) {
-        return 1;
+        return LIST_WRONG_PTR;
     }
 
     IntNode* cur = lst->start;
@@ -140,12 +150,12 @@ int list_print(const IntList* lst) {
     }
     printf("]\n");
 
-    return 0;
+    return LIST_OK;
 }
 
-int list_search(const IntList* lst, const int target, size_t* out) {
+list_status_t list_search(const IntList* lst, const int target, size_t* out) {
     if (lst == NULL || out == NULL) {
-        return 1;
+        return LIST_WRONG_PTR;
     }
 
     int status = 0;
@@ -157,16 +167,16 @@ int list_search(const IntList* lst, const int target, size_t* out) {
 
         if (target == cur_val) {
             *out = i;
-            return 0;
+            return LIST_OK;
         }
     }
 
     return 3;
 }
 
-int list_reverse(IntList* lst) {
+list_status_t list_reverse(IntList* lst) {
     if (lst == NULL) {
-        return 1;
+        return LIST_WRONG_PTR;
     }
 
     IntNode* prev = NULL;
@@ -179,17 +189,17 @@ int list_reverse(IntList* lst) {
     }
 
     lst->start = prev;
-    return 0;
+    return LIST_OK;
 }
 
-int list_append(IntList* lst, int val) {
+list_status_t list_append(IntList* lst, int val) {
     if (lst == NULL) {
-        return 1;
+        return LIST_WRONG_PTR;
     }
 
     IntNode* new = malloc(sizeof(IntNode));
     if (new == NULL) {
-        return 1;
+        return LIST_WRONG_PTR;
     }
     new->val = val;
     new->next = NULL;
@@ -205,23 +215,23 @@ int list_append(IntList* lst, int val) {
     }
 
     lst->len++;
-    return 0;
+    return LIST_OK;
 }
 
 size_t list_len(const IntList* lst) {
     if (lst == NULL || lst->start == NULL) {
-        return 0;
+        return LIST_OK;
     }
     return lst->len;
 }
 
-int list_swap_values(IntList* lst, size_t idx1, size_t idx2) {
+list_status_t list_swap_values(IntList* lst, size_t idx1, size_t idx2) {
     if (lst == NULL) {
-        return 1;
+        return LIST_WRONG_PTR;
     }
 
     if (idx1 >= lst->len || idx2 >= lst->len) {
-        return 2;
+        return LIST_IDX_OUT_OF_BOUNDS;
     }
 
     int val1;
@@ -244,12 +254,12 @@ int list_swap_values(IntList* lst, size_t idx1, size_t idx2) {
         return status;
     }
 
-    return 0;
+    return LIST_OK;
 }
 
-int list_sort(IntList* lst) {
+list_status_t list_sort(IntList* lst) {
     if (lst == NULL || lst->start ==  NULL) {
-        return 1;
+        return LIST_WRONG_PTR;
     }
 
     int status = 0;
@@ -258,7 +268,7 @@ int list_sort(IntList* lst) {
     IntList* right_lst = list_make(half_size);
 
     if (left_lst == NULL || right_lst == NULL) {
-        return 1;
+        return LIST_WRONG_PTR;
     }
 
     int left_cur_val = 0;
@@ -286,6 +296,6 @@ int list_sort(IntList* lst) {
     list_print(left_lst);
     list_print(right_lst);
 
-    return 0;
+    return LIST_OK;
 }
 

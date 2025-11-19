@@ -17,6 +17,18 @@
 
 #include <stddef.h>  // for size_t
 
+/*
+ * @enum list_status_t
+ * @brief this enum represents all the status code
+ * that the lists operations can return
+ */
+typedef enum {
+    LIST_OK                = 0,
+    LIST_WRONG_PTR         = 1,
+    LIST_IDX_OUT_OF_BOUNDS = 2,
+    LIST_ITEM_NOT_FOUND    = 3
+} list_status_t;
+
 /**
  * @struct IntNode
  * @brief A single node of the integer linked list.
@@ -62,7 +74,7 @@ IntList* list_make(const size_t init_size);
  * @param lst Pointer to the list to free.
  * @return 0 on success, 1 if lst is NULL.
  */
-int list_free(IntList* lst);
+list_status_t list_free(IntList* lst);
 
 /**
  * @brief Remove an element at a given index.
@@ -73,7 +85,7 @@ int list_free(IntList* lst);
  * @param idx Index of the element to remove (0-based).
  * @return Status code (0 success, 1 NULL pointer, 2 index out of bounds).
  */
-int list_remove(IntList* lst, const size_t idx);
+list_status_t list_remove(IntList* lst, const size_t idx);
 
 /**
  * @brief Set the value of an element at a given index.
@@ -83,7 +95,7 @@ int list_remove(IntList* lst, const size_t idx);
  * @param new_val New integer value to set.
  * @return Status code (0 success, 1 NULL pointer, 2 index out of bounds).
  */
-int list_set_value(IntList* lst, const size_t idx, const int new_val);
+list_status_t list_set_value(IntList* lst, const size_t idx, const int new_val);
 
 /**
  * @brief Print the list to stdout in [ val1 val2 ... ] format.
@@ -91,7 +103,7 @@ int list_set_value(IntList* lst, const size_t idx, const int new_val);
  * @param lst Pointer to the list.
  * @return 0 on success, 1 if lst is NULL.
  */
-int list_print(const IntList* lst);
+list_status_t list_print(const IntList* lst);
 
 /**
  * @brief stores the item at a given index in a given output variable
@@ -100,7 +112,7 @@ int list_print(const IntList* lst);
  * @param idx Index of the element to store
  * @param out pointer to the variable where the element will be stored
  */
-int list_get_val(const IntList* lst, const size_t idx, int* out);
+list_status_t list_get_val(const IntList* lst, const size_t idx, int* out);
 
 /**
  * @brief searches the index of a given value
@@ -110,14 +122,14 @@ int list_get_val(const IntList* lst, const size_t idx, int* out);
  * @param out pointer to the variable where the index if find will be stored
  * @return Status code (0 success, 1 NULL pointer, 2 index out of bounds, 3 not found value).
  */
-int list_search(const IntList* lst, const int target, size_t* out);
+list_status_t list_search(const IntList* lst, const int target, size_t* out);
 
 /**
  * @brief reverses the list by shifting the pointers of the list
  *
  * @param lst Poitner to the list
  */
-int list_reverse(IntList* lst);
+list_status_t list_reverse(IntList* lst);
 
 /**
  * @brief adds a node at the end of the list
@@ -125,7 +137,7 @@ int list_reverse(IntList* lst);
  * @param lst Poitner to the list
  * @param val Value to add at the end of the list
  */
-int list_append(IntList* lst, int val);
+list_status_t list_append(IntList* lst, int val);
 
 /**
  * @brief returns the size of the list
@@ -134,8 +146,8 @@ int list_append(IntList* lst, int val);
  */
 size_t list_len(const IntList* lst);
 
-int list_swap_values(IntList* lst, size_t idx1, size_t idx2);
+list_status_t list_swap_values(IntList* lst, size_t idx1, size_t idx2);
 
-int list_sort(IntList* lst);
+list_status_t list_sort(IntList* lst);
 
 #endif // INTLIST_H
