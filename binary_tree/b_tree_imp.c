@@ -2,6 +2,14 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
+typedef enum {
+    BINARYINTTREE_OK                        = 0,
+    BINARYINTTREE_WRONG_PTR                 = 1,
+    BINARYINTTREE_ITEM_ALREADY_ON_TREE      = 2,
+    BINARYINTTREE_ITEM_NOT_FOUND            = 3,
+    BINARYINTTREE_EMPTY_TREE                = 4,
+} BinaryIntTree_status_t;
+
 typedef struct IntNode {
     int val;
     struct IntNode* left;
@@ -36,11 +44,11 @@ static void BinaryTree_free_node(IntNode* node) {
 
 static int BinaryTree_search_node(IntNode* node, int val) {
     if (node == NULL) {
-        return 1;
+        return BINARYINTTREE_WRONG_PTR;
     }
 
     if (val == node->val) {
-        return 0;
+        return BINARYINTTREE_OK;
     } else if (val < node->val) {
         return BinaryTree_search_node(node->left, val);
     } else {
@@ -87,31 +95,31 @@ static IntNode* BinaryTree_remove_node(IntNode* root, int val, int* status) {
     return root;
 }
 
-int BinaryTree_free(BinaryIntTree* bst) {
+BinaryIntTree_status_t BinaryTree_free(BinaryIntTree* bst) {
     if (bst == NULL) {
-        return 1;
+        return BINARYINTTREE_WRONG_PTR;
     }
 
     BinaryTree_free_node(bst->root);
     free(bst);
-    return 0;
+    return BINARYINTTREE_OK;
 }
 
 int BinaryTree_search(const BinaryIntTree* bst, int val) {
     if (bst == NULL) {
-        return 1;
+        return BINARYINTTREE_WRONG_PTR;
     }
     return BinaryTree_search_node(bst->root, val);
 }
 
 int BinaryTree_add(BinaryIntTree* bst, const int val) {
     if (bst == NULL) {
-        return 1;
+        return BINARYINTTREE_WRONG_PTR;
     }
 
     IntNode* new = malloc(sizeof(IntNode));
     if (new == NULL) {
-        return 1;
+        return BINARYINTTREE_WRONG_PTR;
     }
     new->val = val;
     new->left = NULL;
@@ -120,26 +128,26 @@ int BinaryTree_add(BinaryIntTree* bst, const int val) {
     if (bst->root == NULL) {
         bst->root = new;
         bst->_size++;
-        return 0;
+        return BINARYINTTREE_OK;
     }
 
     IntNode* cur = bst->root;
     for (;;) {
         if (val == cur->val) {
             free(new);
-            return 2;
+            return BINARYINTTREE_ITEM_ALREADY_ON_TREE;
         } else if (val < cur->val) {
             if (cur->left == NULL) {
                 cur->left = new;
                 bst->_size++;
-                return 0;
+                return BINARYINTTREE_OK;
             }
             cur = cur->left;
         } else {
             if (cur->right == NULL) {
                 cur->right = new;
                 bst->_size++;
-                return 0;
+                return BINARYINTTREE_OK;
             }
             cur = cur->right;
         }
@@ -148,7 +156,7 @@ int BinaryTree_add(BinaryIntTree* bst, const int val) {
 
 int BinaryTree_remove(BinaryIntTree* bst, const int val) {
     if (bst == NULL) {
-        return 1;
+        return BINARYINTTREE_WRONG_PTR;
     }
 
     int status = 0;
@@ -161,7 +169,7 @@ int BinaryTree_remove(BinaryIntTree* bst, const int val) {
 
 int BinaryTree_min(const BinaryIntTree* bst, int* out) {
     if (bst == NULL || out == NULL) {
-        return 1;
+        return BINARYINTTREE_WRONG_PTR;
     }
 
     IntNode* cur = bst->root;
@@ -170,12 +178,12 @@ int BinaryTree_min(const BinaryIntTree* bst, int* out) {
     }
 
     *out = cur->val;
-    return 0;
+    return BINARYINTTREE_OK;
 }
 
 int BinaryTree_max(const BinaryIntTree* bst, int* out) {
     if (bst == NULL || out == NULL) {
-        return 1;
+        return BINARYINTTREE_WRONG_PTR;
     }
 
     IntNode* cur = bst->root;
@@ -184,35 +192,35 @@ int BinaryTree_max(const BinaryIntTree* bst, int* out) {
     }
 
     *out = cur->val;
-    return 0;
+    return BINARYINTTREE_OK;
 }
 
 int BinaryTree_size(const BinaryIntTree* bst, size_t* out) {
     if (bst == NULL || out == NULL) {
-        return 1;
+        return BINARYINTTREE_WRONG_PTR;
     }
 
     if (bst->root == NULL) {
         *out = 0;
-        return 4;
+        return BINARYINTTREE_EMPTY_TREE;
     }
 
     *out = bst->_size;
-    return 0;
+    return BINARYINTTREE_OK;
 }
 
 int BinaryTree_is_empty(const BinaryIntTree* bst, bool* out) {
     if (bst == NULL) {
-        return 1;
+        return BINARYINTTREE_WRONG_PTR;
     }
 
     if (bst->root == NULL) {
         *out = true;
-        return 0;
+        return BINARYINTTREE_OK;
     }
 
     *out = false;
-    return 0;
+    return BINARYINTTREE_OK;
 }
 
 void BinaryTree_print_preorder(const IntNode* cur_node) {

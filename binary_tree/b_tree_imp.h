@@ -5,17 +5,19 @@
  * This library provides a basic binary tree for integers, with
  * operations to make, free, add elements and print.
  *
- * ## Status Codes:
- * - 0: No errors.
- * - 1: Wrong pointer (NULL pointer passed where a valid pointer is required).
- * - 2: Item already on the tree.
- * - 3: Item not found.
- * - 4: Empty tree
  */
 
 #ifndef B_TREE_IMP_H
 #define B_TREE_IMP_H
 #include <stddef.h>
+
+typedef enum {
+    BINARYINTTREE_OK                        = 0,
+    BINARYINTTREE_WRONG_PTR                 = 1,
+    BINARYINTTREE_ITEM_ALREADY_ON_TREE      = 2,
+    BINARYINTTREE_ITEM_NOT_FOUND            = 3,
+    BINARYINTTREE_EMPTY_TREE                = 4,
+} BinaryIntTree_status_t;
 
 /**
  * @struct IntNode
