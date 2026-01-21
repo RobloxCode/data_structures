@@ -62,21 +62,11 @@ int16_Array_List_status int16_Array_List_append(
 
     if (al->length >= al->capacity) {
         size_t new_capacity = al->capacity * 2;
-        int16_t* new_items = malloc(new_capacity * sizeof *new_items);
-        if (!new_items) {
-            return ARRAY_LIST_ERR_MALLOC;
-        }
-
-        memmove(new_items, al->items, al->capacity * sizeof *al->items);
-
-        int16_t* tmp = al->items;
+        int16_t* new_items = realloc(al->items, new_capacity * sizeof *new_items);
         al->items = new_items;
-        free(tmp);
-        tmp = NULL;
-
+        al->capacity = new_capacity;
         al->items[al->length] = item;
         al->length++;
-        al->capacity = new_capacity;
         return ARRAY_LIST_OK;
     }
 
