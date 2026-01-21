@@ -5,11 +5,13 @@
 #include <string.h>
 
 typedef enum {
-    ARRAY_LIST_OK                   = 0,
-    ARRAY_LIST_WRONG_PTR            = 1,
-    ARRAY_LIST_ERR_MALLOC           = 2,
-    ARRAY_LIST_INVALID_SIZE         = 3,
-    ARRAY_LIST_IDX_OUT_OF_BOUNDS    = 4,
+    ARRAY_LIST_OK,
+    ARRAY_LIST_WRONG_PTR,
+    ARRAY_LIST_ERR_MALLOC,
+    ARRAY_LIST_ERR_REALLOC,
+    ARRAY_LIST_OVERFLOW,
+    ARRAY_LIST_INVALID_SIZE,
+    ARRAY_LIST_IDX_OUT_OF_BOUNDS,
 } int16_Array_List_status;
 
 typedef struct {
@@ -61,8 +63,16 @@ int16_Array_List_status int16_Array_List_append(
     }
 
     if (al->length >= al->capacity) {
+        if (al->capacity > SIZE_MAX / 2) {
+            return ARRAY_LIST_OVERFLOW;
+        }
+
         size_t new_capacity = al->capacity * 2;
         int16_t* new_items = realloc(al->items, new_capacity * sizeof *new_items);
+        if (!new_items) {
+            return ARRAY_LIST_ERR_MALLOC;
+        }
+
         al->items = new_items;
         al->capacity = new_capacity;
         al->items[al->length] = item;

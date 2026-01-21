@@ -4,11 +4,13 @@
 #include <stdint.h>
 
 typedef enum {
-    ARRAY_LIST_OK                   = 0,
-    ARRAY_LIST_WRONG_PTR            = 1,
-    ARRAY_LIST_ERR_MALLOC           = 2,
-    ARRAY_LIST_INVALID_SIZE         = 3,
-    ARRAY_LIST_IDX_OUT_OF_BOUNDS    = 4,
+    ARRAY_LIST_OK,
+    ARRAY_LIST_WRONG_PTR,
+    ARRAY_LIST_ERR_MALLOC,
+    ARRAY_LIST_ERR_REALLOC,
+    ARRAY_LIST_OVERFLOW,
+    ARRAY_LIST_INVALID_SIZE,
+    ARRAY_LIST_IDX_OUT_OF_BOUNDS,
 } int16_Array_List_status;
 
 typedef struct {
