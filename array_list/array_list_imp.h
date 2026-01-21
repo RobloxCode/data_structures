@@ -26,10 +26,10 @@ int16_Array_List_status int16_Array_List_remove(
     int16_Array_List* al,
     size_t index);
 int16_Array_List_status int16_Array_List_print(int16_Array_List* al);
-int16_Array_List_status int16_Array_List_get(
+int16_Array_List_status int16_Array_List_get_item(
     int16_Array_List* al,
-    size_t index,
-    int16_t* item);
+    size_t idx,
+    int16_t* buff);
 int16_Array_List_status int16_Array_List_swap(
     int16_Array_List* al,
     size_t index1,

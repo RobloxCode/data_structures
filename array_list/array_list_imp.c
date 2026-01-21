@@ -116,7 +116,7 @@ int16_Array_List_status int16_Array_List_remove(
     }
 
     int16_Array_List_status status = ARRAY_LIST_OK;
-    for (size_t i = idx; i < al->length; ++i) {
+    for (size_t i = idx; i < al->length - 1; ++i) {
         status = int16_Array_List_swap(al, i, i + 1);
         if (status != ARRAY_LIST_OK) {
             return status;
@@ -140,11 +140,11 @@ int16_Array_List_status int16_Array_List_print(int16_Array_List* al) {
     return ARRAY_LIST_OK;
 }
 
-int16_Array_List_status int16_Array_List_get(
+int16_Array_List_status int16_Array_List_get_item(
     int16_Array_List* al,
     size_t idx,
-    int16_t* item) {
-    if (!al) {
+    int16_t* buff) {
+    if (!al || !buff) {
         return ARRAY_LIST_WRONG_PTR;
     }
 
@@ -152,6 +152,7 @@ int16_Array_List_status int16_Array_List_get(
         return ARRAY_LIST_IDX_OUT_OF_BOUNDS;
     }
 
-    *item = al->items[idx];
+    *buff = al->items[idx];
     return ARRAY_LIST_OK;
 }
+
