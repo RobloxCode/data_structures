@@ -16,11 +16,12 @@ typedef enum {
     ARRAY_LIST_IDX_OUT_OF_BOUNDS    = 30,
 } int16_Array_List_status;
 
-typedef struct {
+typedef struct int16_Array_List int16_Array_List;
+struct int16_Array_List {
     int16_t* items;
     size_t capacity;
     size_t length;
-} int16_Array_List;
+};
 
 int16_Array_List* int16_Array_List_make(size_t init_capacity);
 int16_Array_List_status int16_Array_List_free(int16_Array_List** al);
